@@ -1,0 +1,38 @@
+<launch>
+  <!-- Arguments -->
+  <arg name="model" default="$(env TURTLEBOT3_MODEL)" doc="model type [burger, waffle, waffle_pi]"/>
+  <arg name="map_file" default="$(find turtlebot3_navigation)/maps/map.yaml"/>
+  <arg name="open_rviz" default="false"/>  <!-- RViz 비활성화 -->
+  <arg name="move_forward_only" default="false"/>
+  <arg name="target_x" default="3.0"/>    <!-- 사용자 정의 X 좌표 -->
+  <arg name="target_y" default="1.5"/>    <!-- 사용자 정의 Y 좌표 -->
+
+  <!-- Turtlebot3 -->
+  <include file="$(find turtlebot3_bringup)/launch/turtlebot3_remote.launch">
+    <arg name="model" value="$(arg model)" />
+  </include>
+
+  <!-- Map server -->
+  <node pkg="map_server" name="map_server" type="map_server" args="$(arg map_file)"/>
+
+  <!-- AMCL -->
+  <include file="$(find turtlebot3_navigation)/launch/amcl.launch"/>
+
+  <!-- move_base -->
+  <include file="$(find turtlebot3_navigation)/launch/move_base.launch">
+    <arg name="model" value="$(arg model)" />
+    <arg name="move_forward_only" value="$(arg move_forward_only)"/>
+  </include>
+
+  <!-- Custom Goal Publisher Node 추가! -->
+  <node name="custom_goal_publisher" pkg="your_pkg" type="custom_goal.py" output="screen">
+    <param name="target_x" value="$(arg target_x)"/>
+    <param name="target_y" value="$(arg target_y)"/>
+  </node>
+
+  <!-- RViz는 선택적으로 사용 -->
+  <group if="$(arg open_rviz)"> 
+    <node pkg="rviz" type="rviz" name="rviz" required="true"
+          args="-d $(find turtlebot3_navigation)/rviz/turtlebot3_navigation.rviz"/>
+  </group>
+</launch>
