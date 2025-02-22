@@ -6,6 +6,8 @@ from tf.transformations import quaternion_from_euler
 def publish_goal():
     rospy.init_node('custom_goal_publisher')
     pub = rospy.Publisher('/move_base_simple/goal', PoseStamped, queue_size=10)
+
+    # 카메라에서 받아오도록 바꾸기
     
     # Launch 파일에서 전달된 파라미터 읽기
     target_x = rospy.get_param('~target_x', 3.0)
