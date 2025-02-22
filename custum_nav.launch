@@ -4,8 +4,6 @@
   <arg name="map_file" default="$(find turtlebot3_navigation)/maps/map.yaml"/>
   <arg name="open_rviz" default="false"/>  <!-- RViz 비활성화 -->
   <arg name="move_forward_only" default="false"/>
-  <arg name="target_x" default="3.0"/>    <!-- 사용자 정의 X 좌표 -->
-  <arg name="target_y" default="1.5"/>    <!-- 사용자 정의 Y 좌표 -->
 
   <!-- Turtlebot3 -->
   <include file="$(find turtlebot3_bringup)/launch/turtlebot3_remote.launch">
@@ -25,9 +23,7 @@
   </include>
 
   <!-- Custom Goal Publisher Node 추가! -->
-  <node name="custom_goal_publisher" pkg="your_pkg" type="custom_goal.py" output="screen">
-    <param name="target_x" value="$(arg target_x)"/>
-    <param name="target_y" value="$(arg target_y)"/>
+  <node name="custom_goal_publisher" pkg="turtlebot3_navigation" type="send_goal.py" output="screen">
   </node>
 
   <!-- RViz는 선택적으로 사용 -->
