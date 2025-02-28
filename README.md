@@ -15,3 +15,13 @@
 6. 가능하면 매니퓰레이터 작동시키기
 
 아 생각해보니 갔다가 돌아와야하네...
+
+## 로봇 (jetson nano)
+roscore
+roslaunch turtlebot3_bringup turtlebot3_robot.launch
+roslaunch turtlebot3_navigation turtlebot3_slam.launch
+
+
+## 노트북 (ubuntu)
+usb_cam_node 로 웹캠 publish
+만든 send_goal.py 실행 
